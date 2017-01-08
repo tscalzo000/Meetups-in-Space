@@ -1,0 +1,25 @@
+<h1>Create a New Meetup!</h1>
+
+<body>
+  <form action='/meetups/create' method='post'>
+    <label for='meetup_name'>Meetup Name:</label>
+    <br />
+    <input type='text' id='meetup_name' name='meetup_name' value = "<%= params['meetup_name'] %>">
+    <br />
+    <br />
+    <label for='meetup_location'>Meetup Location:</label>
+    <br />
+    <input type='text' id='meetup_location' name='meetup_location' value = "<%= params['meetup_location'] %>">
+    <br />
+    <br />
+    <label for='meetup_description'>Meetup Description:</label>
+    <br />
+    <textarea name='meetup_description' cols='50' rows='3'><%= params['meetup_description'] %></textarea>
+    <br />
+    <br />
+    <input type='submit'>
+  </form>
+  <% if @error %>
+    <h3>Error! <%= @error %></h3>
+  <% end %>
+</body>

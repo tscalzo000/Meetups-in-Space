@@ -1,0 +1,56 @@
+<h1><%= @meetup.name %></h1>
+
+<body>
+  <h2>Location: <%= @meetup.location %></h2>
+  <h3>Description: <%= @meetup.description %></h3>
+  <h3>Creator: <%= (User.find(@meetup.creator_id)).username %></h3>
+  <% if !@user.nil? && @user.id == @meetup.creator_id %>
+    <form action='/meetups/edit/<%= @meetup.id %>' method='get'><button>Edit</button></form>
+  <% end %>
+  <br/>
+  <% if !@user.nil? && @user.id == @meetup.creator_id %>
+    <form action='/meetups/cancel/<%= @meetup.id %>' method='get'><button>Cancel Meetup</button></form>
+  <% end %>
+  <p>
+    <% if @meetup.signups != [] %>
+      <h4>Signed Up:</h4>
+      <% @meetup.signups.each do |signup| %>
+        <p><img src='<%= (signup.user).avatar_url %>' width='30' height='30'/> <%= (signup.user).username %></p>
+      <% end %>
+    <% end %>
+  </p>
+
+  <% if !@user.nil? && @meetup.signups.where(user_id: @user.id) == [] %>
+    <form action='/meetups/<%= @meetup.id %>' method='post'><button>Sign Up!</button></form>
+  <% elsif !@user.nil? %>
+    <form action='/meetups/<%= @meetup.id %>' method='post'><button>Cancel Sign Up</button></form>
+  <% end %>
+  <br />
+  <% if !@user.nil? %>
+    <form action='/meetups/comment/<%= @meetup.id %>' method='post'>
+      <label for='meetup_comment'>Comment:</label>
+      <br />
+      <textarea name='meetup_comment' cols='50' rows='3'></textarea>
+      <br/>
+      <input type='submit'>
+    </form>
+    <br />
+    <% if @meetup.comments != [] %>
+      <% meetups = @meetup.comments.order(created_at: :desc) %>
+      <% meetups.each do |comment| %>
+        <img src='<%= (comment.user).avatar_url %>' width='30' height='30'/> <%= comment.user.username %>:
+        <%= Time.at(comment.created_at.to_i).strftime('%c') %>
+        <br/>
+        <%= comment.body %>
+        <% if comment.user == @user %>
+          <form action='/meetups/<%= comment.id %>/delete' method='post'>
+            <button>Delete Comment</button>
+          </form>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% elsif @user.nil? %>
+    <h3>Please sign-in to see more details about this meetup</h3>
+  <% end %>
+  <h4><a href='/meetups'>Meetup HomePage</a></h4>
+</body>

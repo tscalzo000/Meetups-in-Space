@@ -1,0 +1,5 @@
+<h1>Cancel Meetup</h1>
+
+<h2>Are you sure you want to cancel <%= @meetup.name %>?</h2>
+<form action='/meetups/cancel/<%=@meetup.id %>' method='post'><button>Yes</button></form>
+<button onclick="location.href='/meetups/<%= @meetup.id %>'">No</button>

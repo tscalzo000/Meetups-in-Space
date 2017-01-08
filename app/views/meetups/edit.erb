@@ -1,0 +1,23 @@
+<h1>Edit</h1>
+
+<form action='/meetups/edit/<%= @meetup.id %>' method='post'>
+  <label for='meetup_name'>Meetup Name:</label>
+  <br />
+  <input type='text' id='meetup_name' name='meetup_name' value = "<%= params['meetup_name'] || @meetup.name %>">
+  <br />
+  <br />
+  <label for='meetup_location'>Meetup Location:</label>
+  <br />
+  <input type='text' id='meetup_location' name='meetup_location' value = "<%= params['meetup_location'] || @meetup.location %>">
+  <br />
+  <br />
+  <label for='meetup_description'>Meetup Description:</label>
+  <br />
+  <textarea name='meetup_description' cols='50' rows='3'><%= params['meetup_description'] || @meetup.description %></textarea>
+  <br />
+  <br />
+  <input type='submit'>
+  <% if @error %>
+    <h3>Error! <%= @error %></h3>
+  <% end %>
+</form>
